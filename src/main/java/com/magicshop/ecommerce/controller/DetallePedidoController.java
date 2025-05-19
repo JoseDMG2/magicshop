@@ -31,7 +31,7 @@ public class DetallePedidoController {
     }
     
     @PostMapping
-    public ResponseEntity<DetallePedido> registrar(@RequestBody DetallePedido detallepedido){
+    public ResponseEntity<Void> registrar(@RequestBody DetallePedido detallepedido){
         
         DetallePedido obj = service.registrar(detallepedido);
         
