@@ -1,7 +1,7 @@
 package com.magicshop.ecommerce.controller;
 
-import com.magicshop.ecommerce.model.Pedido;
-import com.magicshop.ecommerce.service.PedidoService;
+import com.magicshop.ecommerce.model.DetallePedido;
+import com.magicshop.ecommerce.service.DetallePedidoService;
 import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,37 +18,38 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
-@RequestMapping("/pedido")
-public class PedidoController {
+@RequestMapping("/detallepedido")
+public class DetallePedidoController {
     
     @Autowired
-    private PedidoService service;
+    private DetallePedidoService service;
     
     @GetMapping
-    public ResponseEntity<List<Pedido>> listar() {
-        List<Pedido> obj = service.listar();
-        return new ResponseEntity<List<Pedido>>(obj, HttpStatus.OK);
+    public ResponseEntity<List<DetallePedido>> listar() {
+        List<DetallePedido> obj = service.listar();
+        return new ResponseEntity<List<DetallePedido>>(obj, HttpStatus.OK);
     }
     
     @PostMapping
-    public ResponseEntity<Void> registrar(@RequestBody Pedido pedido){
+    public ResponseEntity<DetallePedido> registrar(@RequestBody DetallePedido detallepedido){
         
-        Pedido obj = service.registrar(pedido);
+        DetallePedido obj = service.registrar(detallepedido);
         
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/id").buildAndExpand(obj.getId()).toUri();
         
         return ResponseEntity.created(uri).build();
+        
     }
     
     @PutMapping
-    public ResponseEntity<Pedido> actualizar(@RequestBody Pedido pedido){
-        Pedido obj = service.registrar(pedido);
-        return new ResponseEntity<Pedido>(obj, HttpStatus.OK);
+    public ResponseEntity<DetallePedido> actualizar(@RequestBody DetallePedido detallepedido){
+        DetallePedido obj = service.registrar(detallepedido);
+        return new ResponseEntity<DetallePedido>(obj, HttpStatus.OK);
     }
     
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable("id") Integer id) throws Exception{
-        Pedido obj = service.ListarPorId(id);
+        DetallePedido obj = service.ListarPorId(id);
         if(obj == null) {
             throw new Exception("No se encontró el ID");
         }
@@ -57,13 +58,13 @@ public class PedidoController {
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<Pedido> listarPorId(@PathVariable("id") Integer id) throws Exception{
-        Pedido obj = service.ListarPorId(id);
+    public ResponseEntity<DetallePedido> listarPorId(@PathVariable("id") Integer id) throws Exception{
+        DetallePedido obj = service.ListarPorId(id);
         if(obj == null) {
             throw new Exception("No se encontró el ID");
         }
         service.eliminar(id);
-        return new ResponseEntity<Pedido>(obj, HttpStatus.OK);
+        return new ResponseEntity<DetallePedido>(obj, HttpStatus.OK);
     }
     
 }
