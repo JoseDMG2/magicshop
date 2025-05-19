@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.util.List;
 
 @Entity
 @Table(name="pedidos")
@@ -28,15 +29,17 @@ public class Pedido {
     
     @ManyToOne
     @JoinColumn(name="id_detalleventa")
-    private DetallePedido detalleventa;
+    private List<DetallePedido> detalleventa;
     
     //Constructores
-    public Pedido(String fecha, double total, String estado, DetallePedido detalleventa) {
+
+    public Pedido(String fecha, double total, String estado, List<DetallePedido> detalleventa) {
         this.fecha = fecha;
         this.total = total;
         this.estado = estado;
         this.detalleventa = detalleventa;
     }
+    
     
     public Pedido() {
     }
@@ -74,12 +77,13 @@ public class Pedido {
         this.estado = estado;
     }
 
-    public DetallePedido getDetalleventa() {
+    public List<DetallePedido> getDetalleventa() {
         return detalleventa;
     }
 
-    public void setDetalleventa(DetallePedido detalleventa) {
+    public void setDetalleventa(List<DetallePedido> detalleventa) {
         this.detalleventa = detalleventa;
     }
+ 
 
 }
