@@ -5,7 +5,9 @@ import com.magicshop.ecommerce.repository.PedidoRepository;
 import com.magicshop.ecommerce.service.PedidoService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PedidoServicesImpl implements PedidoService {
 
     @Autowired

@@ -5,7 +5,9 @@ import com.magicshop.ecommerce.repository.UsuarioRepository;
 import com.magicshop.ecommerce.service.UsuarioService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UsuarioServicesImpl implements UsuarioService {
 
     @Autowired

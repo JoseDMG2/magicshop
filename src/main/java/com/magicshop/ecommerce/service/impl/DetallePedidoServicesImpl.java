@@ -5,7 +5,9 @@ import com.magicshop.ecommerce.repository.DetallePedidoRepository;
 import com.magicshop.ecommerce.service.DetallePedidoService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DetallePedidoServicesImpl implements DetallePedidoService {
 
     @Autowired
