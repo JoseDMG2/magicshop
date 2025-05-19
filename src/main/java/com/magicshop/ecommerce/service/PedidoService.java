@@ -1,13 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.magicshop.ecommerce.service;
 
-/**
- *
- * @author LENOVO
- */
-public class PedidoService {
+import com.magicshop.ecommerce.model.Pedido;
+import java.util.List;
+
+
+public interface PedidoService {
+    
+    List<Pedido> listar();
+    Pedido registrar(Pedido pedido);
+    Pedido actualizar(Pedido pedido);
+    void eliminar(Integer id);
+    Pedido ListarPorId(Integer id);
     
 }

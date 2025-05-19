@@ -1,13 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.magicshop.ecommerce.service;
 
-/**
- *
- * @author LENOVO
- */
-public class ProductoService {
+import com.magicshop.ecommerce.model.Producto;
+import java.util.List;
+
+public interface ProductoService {
+    
+    List<Producto> listar();
+    Producto registrar(Producto producto);
+    Producto actualizar(Producto producto);
+    void eliminar(Integer id);
+    Producto ListarPorId(Integer id);
     
 }
