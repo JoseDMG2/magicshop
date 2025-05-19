@@ -30,12 +30,15 @@ public class Pedido {
     @JoinColumn(name="id_detalleventa")
     private DetallePedido detalleventa;
     
-    //Constructor
+    //Constructores
     public Pedido(String fecha, double total, String estado, DetallePedido detalleventa) {
         this.fecha = fecha;
         this.total = total;
         this.estado = estado;
         this.detalleventa = detalleventa;
+    }
+    
+    public Pedido() {
     }
     
     //Gets and Setters

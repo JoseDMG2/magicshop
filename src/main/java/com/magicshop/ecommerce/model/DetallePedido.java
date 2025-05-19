@@ -35,13 +35,16 @@ public class DetallePedido {
     @JoinColumn(name="id_pedido")
     private Pedido pedido;
     
-    //Constructor
+    //Constructores
     public DetallePedido(int cantidad, double precio_unitario, double subtotal, Producto producto, Pedido pedido) {
         this.cantidad = cantidad;
         this.precio_unitario = precio_unitario;
         this.subtotal = subtotal;
         this.producto = producto;
         this.pedido = pedido;
+    }
+    
+    public DetallePedido() {
     }
     
     //Gets and Setters

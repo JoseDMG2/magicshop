@@ -30,13 +30,16 @@ public class Producto {
     @Column(name="categoria", length = 100, nullable = false)
     private String categoria;
     
-    //Constructor
+    //Constructores
     public Producto(String nombre, String descripcion, double precio, int stock, String categoria) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.stock = stock;
         this.categoria = categoria;
+    }
+    
+    public Producto() {
     }
     
     //Gets and Setters

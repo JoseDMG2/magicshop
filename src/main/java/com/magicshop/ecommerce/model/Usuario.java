@@ -37,7 +37,7 @@ public class Usuario {
     @Column(name="rol", length = 100, nullable = false)
     private String rol;
     
-    //Constructor
+    //Constructores
     public Usuario(String nombre, String apellido, String correo, String clave, String telefono, String direccion, String rol) {
         this.nombre = nombre;
         this.apellido = apellido;
@@ -48,6 +48,8 @@ public class Usuario {
         this.rol = rol;
     }
 
+    public Usuario() {
+    }
     
     //Gets and Setters
     public int getId() {
