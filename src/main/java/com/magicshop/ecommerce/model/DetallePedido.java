@@ -6,7 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -26,22 +26,31 @@ public class DetallePedido {
     @Column(name="subtotal", nullable = false)
     private double subtotal;
     
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="id_producto")
     private Producto producto;
     
+    @ManyToOne
+    @JoinColumn(name="id_pedido")
+    private Pedido pedido;
+    
     //Constructores
-    public DetallePedido(int cantidad, double precio_unitario, double subtotal, Producto producto) {
+
+    public DetallePedido(int id, int cantidad, double precio_unitario, double subtotal, Producto producto, Pedido pedido) {
+        this.id = id;
         this.cantidad = cantidad;
         this.precio_unitario = precio_unitario;
         this.subtotal = subtotal;
         this.producto = producto;
+        this.pedido = pedido;
     }
+    
     
     public DetallePedido() {
     }
     
     //Gets and Setters
+    
     public int getId() {
         return id;
     }
@@ -80,6 +89,14 @@ public class DetallePedido {
 
     public void setProducto(Producto producto) {
         this.producto = producto;
+    }
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
     }
     
 }
