@@ -11,23 +11,19 @@
                 <h3 class="fw-bold mb-3">Inicia Sesión</h3>
                 <p class="text-muted">Accede con tu cuenta para poder visualizar tus productos favoritos guardados!</p>
 
-                <form>
+                <form th:action="@{/login}" method="post">
                     <div class="mb-3">
-                        <label for="email" class="form-label">Correo Electrónico</label>
-                        <input type="email" class="form-control" id="email" placeholder="Ingresa tu correo electrónico" required>
+                        <label for="correo" class="form-label">Correo Electrónico</label>
+                        <input type="email" class="form-control" id="correo" name="correo" required>
                     </div>
-
                     <div class="mb-3">
-                        <label for="password" class="form-label">Contraseña</label>
-                        <div class="input-group">
-                            <input type="password" class="form-control" id="password" placeholder="Ingresa tu contraseña" required>
-                            <button class="btn btn-outline-secondary" type="button" id="toggleBtn" onclick="togglePassword()">Ver</button>
-                        </div>
+                        <label for="clave" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="clave" name="clave" required>
                     </div>
-
                     <div class="d-grid mb-3">
-                        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                        <button type="submit" class="btn btn-primary">Iniciar sesión</button>
                     </div>
+                    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
                     <div class="text-center my-3 text-muted">o</div>
 
