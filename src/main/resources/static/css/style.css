@@ -1,0 +1,237 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
+}
+/*NavBar*/
+.navbar-custom {
+    background-color: white;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-style: italic; /*cambiar*/
+}
+
+.navbar-brand i {
+    color: #d100b0;
+    margin-right: 10px;
+}
+
+.nav-link {
+    color: #6f6f6f;
+    font-weight: 700;
+}
+
+.nav-link:hover {
+    color: #000000;
+}
+
+.navbar a {
+    text-decoration: none;
+  }
+.login-link {
+    color: #009cff;
+    font-weight: bold;
+}
+
+.icon-link {
+    color: #009cff;
+    margin-left: 15px;
+    position: relative;
+}
+
+.icon-link .badge {
+    color: #009cff;
+    font-size: 0.8rem;
+}
+
+.navbar-brand img {
+    height: 30px;
+}
+/*Carrusel*/
+.carousel img {
+    height: 500px;
+    object-fit: cover;
+}
+
+/*Seccion del editor*/
+
+.section-editor h2{
+    font-size: 20px;
+}
+
+.section-editor .card {
+    height: 100%;
+    max-height: 550px;
+    text-align: center;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    transition: box-shadow 0.3s;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+  
+.section-editor .card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+  
+.section-editor .card-img-top {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+  
+.section-editor .small-card {
+    max-height: 260px;
+}
+  
+.section-editor .small-card .card-img-top {
+    height: 180px;
+}
+
+/*Seccion Productos*/
+.section-product {
+    background-color: #f8f9fa;
+    padding-bottom: 3px;
+    padding-top: 3px;
+}
+
+.section-product .col {
+    position: relative;
+    overflow: hidden;
+}
+
+.section-product h2{
+    font-size: 20px;
+}
+  
+.section-product img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(50%);
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+  
+.section-product a {
+    display: block;
+    position: relative;
+    text-align: center;
+}
+  
+.section-product .category {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+    z-index: 2;
+}
+  
+.section-product a:hover img {
+    filter: brightness(100%);
+    transform: scale(1.05);
+}
+.section-product a:hover .category {
+    z-index:0;
+}
+
+/*Productos Filtrados*/
+.section-filter .product-card img{
+    height: 300px;
+}
+
+/*Destacados*/
+.section-featured {
+    background-color: #f8f9fa;
+    padding-bottom: 3px;
+    padding-top: 3px;
+}
+.section-featured .product-card img{
+   height: 300px;
+}
+
+/*Seccion de estadisticas*/
+.section-stats{
+    padding: 90px 0;
+}
+
+.section-stats .stat-number{
+    font-size: 2rem;
+}
+
+.section-stats .stat-description{
+    color: rgb(90, 88, 88);
+}
+
+
+/*Footer*/
+.footer {
+    background-color: #f8f9fa; /* Un gris claro similar al de la imagen */
+    padding-top: 3rem;
+    padding-bottom: 2rem;
+    color: #6c757d; /* Color de texto general del footer */
+}
+
+.footer h2{
+    color: rgba(0, 0, 0, 0.9);
+    font-weight: bold;
+    font-size: 1.9em;
+}
+.footer h5{
+    color: rgba(0, 0, 0, 0.9);
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+.footer-links ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: #6c757d;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #007bff; /* Color al pasar el ratón */
+}
+
+.footer-contact i {
+    margin-right: 0.5rem;
+    color: #007bff;
+}
+
+.footer-bottom {
+    border-top: 1px solid #dee2e6; /* Línea divisoria superior */
+    padding-top: 1.5rem;
+    margin-top: 2rem;
+}
+
+.social-icons a {
+    color: #007bff;
+    font-size: 1.2rem;
+    margin-left: 0.75rem;
+    text-decoration: none;
+}
+
+.social-icons a:hover {
+    opacity: 0.8;
+}

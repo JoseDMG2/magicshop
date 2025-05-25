@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" th:fragment="layout(content)">
+    <head>
+        <title>Magic Shop</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">    <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />    
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="icon" href="img/icon.png">
+    </head>
+    <body>
+        <!-- Header -->
+        <nav class="navbar navbar-expand-lg navbar-light navbar-custom py-3">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="/">
+                   <img src="img/icon.png" alt="Logo" width="30" height="30" class="me-2"> MAGIC SHOP
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="#">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Shop</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Productos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Destacados</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Contáctanos</a></li>
+                    </ul>
+                    <div class="d-flex align-items-center">
+                        <a href="login" class="login-link me-1"><i class="fa-regular fa-user m-2"></i>Login</a>
+                        <span class="badge mx-1" style="color: #009cff;" >/</span>
+                        <a href="register" class="login-link me-3">Register</a>
+                        <a href="#" class="icon-link"><i class="fas fa-search"></i></a>
+                        <a href="#" class="icon-link position-relative">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="">1</span>
+                        </a>
+                        <a href="#" class="icon-link position-relative">
+                            <i class="fas fa-heart"></i>
+                            <span class="">1</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Content -->
+        <div th:replace="${content}"></div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 mb-4 text-center" style="display: flex; justify-content: space-around;align-items: center;">
+                        <div class="contact" style="text-align: initial;">
+                            <h2>Contáctanos para tu empresa</h2>
+                            <p class="lead" style="font-size: 15px;">Trabajemos juntos para poder expandirnos en el mercado</p>
+                        </div>
+                        <button class="btn btn-primary" style="padding: 10px 25px;">Contáctanos</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 footer-links">
+                        <h5>Información</h5>
+                        <ul>
+                            <li><a href="#">Historia</a></li>
+                            <li><a href="#">Países</a></li>
+                            <li><a href="#">Contratamos</a></li>
+                            <li><a href="#">Blog</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 footer-links">
+                        <h5>Novedades</h5>
+                        <ul>
+                            <li><a href="#">Marketing</a></li>
+                            <li><a href="#">Estadísticas</a></li>
+                            <li><a href="#">Chat en vivo</a></li>
+                            <li><a href="#">Soporte ilimitado</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 footer-links">
+                        <h5>Recursos</h5>
+                        <ul>
+                            <li><a href="#">IOS & Android</a></li>
+                            <li><a href="#">Probar una Demo</a></li>
+                            <li><a href="#">Clientes</a></li>
+                            <li><a href="#">API</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 footer-contact">
+                        <h5>Contáctanos</h5>
+                        <p><i class="bi bi-telephone-fill"></i> (480) 555-0103</p>
+                        <p><i class="bi bi-geo-alt-fill"></i> Kentucky 3949S</p>
+                        <p><i class="bi bi-envelope-fill"></i> magicshop@example.com</p>
+                    </div>
+                </div>
+                <div class="row footer-bottom mt-4">
+                    <div class="col-md-6 text-md-start text-center">
+                        <p>&copy; Todos los derechos reservados por Magic Shop</p>
+                    </div>
+                    <div class="col-md-6 text-md-end text-center social-icons">
+                        <a href="#" target="_blank"><i class="bi bi-facebook"></i></a>
+                        <a href="#" target="_blank"><i class="bi bi-instagram"></i></a>
+                        <a href="#" target="_blank"><i class="bi bi-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+        <script src="js/script.jsx"></script>
+    </body>
+</html>

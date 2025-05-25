@@ -1,15 +1,264 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
-<html>
+<html lang="en" th:replace="~{base::layout(~{::section})}">
     <head>
-        <title>TODO supply a title</title>
+        <title>Contenido Principal</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>TODO write content</div>
+        <section>
+            <!-- Carousel -->
+            <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner bg-info" >
+                    <div class="carousel-item active">
+                        <img src="https://shop.bts-official.us/cdn/shop/files/jh_D2C_Main_Page_Banner_Web.jpg?v=1742517935&width=2000" class="d-block w-100" alt="BTS Banner">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://shop.bts-official.us/cdn/shop/files/BTS-00001-Golden-Desktop.png?v=1740532808&width=1200" class="d-block w-100" alt="BTS Lightstick">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://shop.bts-official.us/cdn/shop/files/BTS-00001-Muse-Desktop.png?v=1740443646&width=1200" class="d-block w-100" alt="BTS Merch">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+
+            <!-- Seleccion del Editor -->
+            <section class="container my-5 section-editor">
+                <h2 class="text-center fw-bold">SELECCIÓN DEL EDITOR</h2>
+                <p class="text-center text-muted mb-4">Productos de calidad</p>
+
+                <div class="row g-4">
+                    <div class="col-12 col-md-6">
+                        <div class="card h-100 text-center">
+                            <img src="https://cdn-contents.weverseshop.io/public/shop/6a283953d3f3f3d5c308c30c5e967a73.jpg?w=320&q=95" class="card-img-top" alt="T-shirt BTS">
+                            <div class="card-body">
+                                <a href="#" class="btn btn-info text-white fw-bold">Detalles</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-3">
+                        <div class="card h-100 text-center">
+                            <img src="https://cdn-contents.weverseshop.io/public/shop/c1a2d4dcbee5d141b3b583974e9c3dba.jpg?w=320&q=95" class="card-img-top" alt="Light Stick">
+                            <div class="card-body">
+                                <a href="#" class="btn btn-info text-white fw-bold">Detalles</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-3 d-flex flex-column justify-content-between">
+                        <div class="card text-center small-card mb-1">
+                            <img src="https://cdn-contents.weverseshop.io/public/shop/507e3d0f1c43df79d1da273648e05645.png?w=320&q=95" class="card-img-top" alt="BTS Album">
+                            <div class="card-body">
+                                <a href="#" class="btn btn-info text-white fw-bold">Detalles</a>
+                            </div>
+                        </div>
+                        <div class="card text-center small-card">
+                            <img src="https://cdn-contents.weverseshop.io/public/shop/54260d7d0b23c3745adf17f3c6beb854.jpg?w=320&q=95" class="card-img-top" alt="House Card BTS">
+                            <div class="card-body">
+                                <a href="#" class="btn btn-info text-white fw-bold">Detalles</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Productos -->
+            <section class="section-product">
+                <div class="container my-5">
+                    <h4 class="fw-bold">Productos</h4>
+                    <div class="row row-cols-1 row-cols-md-5 g-4">
+                        <div class="col">
+                            <a href="#">
+                                <span class="category">DISCOS</span>
+                                <img src="https://cdn-contents.weverseshop.io/public/shop/c6e60dbc87d9db215bed26652ee71f41.jpg?w=720&q=95" class="img-fluid" alt="Llaveros BTS">
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="#">
+                                <span class="category">COLLAB</span>
+                                <img src="https://cdn-contents.weverseshop.io/public/shop/c6e60dbc87d9db215bed26652ee71f41.jpg?w=720&q=95" class="img-fluid" alt="Llaveros BTS">
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="#">
+                                <span class="category">MERCHANDISE</span>
+                                <img src="https://cdn-contents.weverseshop.io/public/shop/c6e60dbc87d9db215bed26652ee71f41.jpg?w=720&q=95" class="img-fluid" alt="Llaveros BTS">
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="#">
+                                <span class="category">ROPA</span>
+                                <img src="https://cdn-contents.weverseshop.io/public/shop/c6e60dbc87d9db215bed26652ee71f41.jpg?w=720&q=95" class="img-fluid" alt="Llaveros BTS">
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="#">
+                                <span class="category">BT21</span>
+                                <img src="https://cdn-contents.weverseshop.io/public/shop/c6e60dbc87d9db215bed26652ee71f41.jpg?w=720&q=95" class="img-fluid" alt="Llaveros BTS">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="container my-4">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+
+                    <div class="text-muted">
+                        Mostrando 12 resultados
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2 ms-auto">
+                        <select class="form-select" style="max-width: 150px;">
+                            <option selected>Lo mejor</option>
+                            <option value="1">Más recientes</option>
+                            <option value="2">Más vendidos</option>
+                            <option value="3">Precio: menor a mayor</option>
+                        </select>
+                        <button class="btn btn-primary fw-semibold">Filtrar</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Productos filtrados -->
+            <section class="container my-5 section-filter">
+                <div class="row row-cols-2 row-cols-md-4 g-4 justify-content-center">
+                    <div class="col">
+                        <div class="product-card text-center">
+                            <a href="">
+                                <img src="https://cdn-contents.weverseshop.io/public/shop/ed67c155d542696f947ef88ff1ebf8eb.png?w=320&q=95" class="img-fluid" alt="">
+                            </a>
+                            <p class="mt-2"> MANG Born to Dance Small Wire Doll</p>
+                            <p><del>$30.00</del> <strong>$15.00</strong></p>
+
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="product-card text-center">
+                            <img src="https://cdn-contents.weverseshop.io/public/shop/ed67c155d542696f947ef88ff1ebf8eb.png?w=320&q=95" class="img-fluid" alt="">
+                            <p class="mt-2">Pulsera BTS</p>
+                            <p><del>$8.00</del> <strong>$3.99</strong></p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="product-card text-center">
+                            <img src="https://cdn-contents.weverseshop.io/public/shop/ed67c155d542696f947ef88ff1ebf8eb.png?w=320&q=95" class="img-fluid" alt="">
+                            <p class="mt-2">Taza BTS</p>
+                            <p><del>$12.00</del> <strong>$5.99</strong></p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="product-card text-center">
+                            <img src="https://cdn-contents.weverseshop.io/public/shop/ed67c155d542696f947ef88ff1ebf8eb.png?w=320&q=95" class="img-fluid" alt="">
+                            <p class="mt-2">Bolso BTS</p>
+                            <p><del>$22.00</del> <strong>$11.00</strong></p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="product-card text-center">
+                            <img src="https://cdn-contents.weverseshop.io/public/shop/ed67c155d542696f947ef88ff1ebf8eb.png?w=320&q=95" class="img-fluid" alt="">
+                            <p class="mt-2">Pulsera BTS</p>
+                            <p><del>$8.00</del> <strong>$3.99</strong></p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="product-card text-center">
+                            <img src="https://cdn-contents.weverseshop.io/public/shop/ed67c155d542696f947ef88ff1ebf8eb.png?w=320&q=95" class="img-fluid" alt="">
+                            <p class="mt-2">Taza BTS</p>
+                            <p><del>$12.00</del> <strong>$5.99</strong></p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="product-card text-center">
+                            <img src="https://cdn-contents.weverseshop.io/public/shop/ed67c155d542696f947ef88ff1ebf8eb.png?w=320&q=95" class="img-fluid" alt="">
+                            <p class="mt-2">Bolso BTS</p>
+                            <p><del>$22.00</del> <strong>$11.00</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Paginacion -->
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">  
+                        <li class="page-item"><a class="page-link" href="#">First</a></li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </nav>
+            </section>
+
+            <!-- Destacados -->
+            <section class="section-featured">
+                <div class="container my-5">
+                    <h4 class="fw-bold">Destacados</h4>
+                    <hr>
+                    <div class="row row-cols-2 row-cols-md-4 g-4">
+                        <div class="col">
+                            <div class="product-card text-center">
+                                <img src="https://cdn-contents.weverseshop.io/public/shop/ecd18799008e8202a634ff8fb53fabee.png?w=320&q=95" class="img-fluid" alt="Mochila BTS">
+                                <p class="mt-2">Pulsera BTS</p>
+                                <p><del>$30.00</del> <strong>$15.00</strong></p>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="product-card text-center">
+                                <img src="https://cdn-contents.weverseshop.io/public/shop/ecd18799008e8202a634ff8fb53fabee.png?w=320&q=95" class="img-fluid" alt="Mochila BTS">
+                                <p class="mt-2">Pulsera BTS</p>
+                                <p><del>$30.00</del> <strong>$15.00</strong></p>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="product-card text-center">
+                                <img src="https://cdn-contents.weverseshop.io/public/shop/ecd18799008e8202a634ff8fb53fabee.png?w=320&q=95" class="img-fluid" alt="Mochila BTS">
+                                <p class="mt-2">Pulsera BTS</p>
+                                <p><del>$30.00</del> <strong>$15.00</strong></p>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="product-card text-center">
+                                <img src="https://cdn-contents.weverseshop.io/public/shop/ecd18799008e8202a634ff8fb53fabee.png?w=320&q=95" class="img-fluid" alt="Mochila BTS">
+                                <p class="mt-2">Pulsera BTS</p>
+                                <p><del>$30.00</del> <strong>$15.00</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seccion de estadísticas -->
+            <section class="section-stats">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="stat-item text-center p-5">
+                                <div class="stat-number fw-bold">1M+</div>
+                                <div class="stat-description fw-bold">Más de un millón de venta de productos</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="stat-item text-center p-5">
+                                <div class="stat-number fw-bold">98%</div>
+                                <div class="stat-description fw-bold">Garantizamos las entregas de los productos hasta su casa</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="stat-item text-center p-5">
+                                <div class="stat-number fw-bold">4.9</div>
+                                <div class="stat-description fw-bold">Ofrecemos productos y servicios de calidad</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
     </body>
 </html>
