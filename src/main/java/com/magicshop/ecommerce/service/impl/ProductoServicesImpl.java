@@ -38,4 +38,10 @@ public class ProductoServicesImpl implements ProductoService {
         return prorep.findById(id).orElse(null);
     }
     
+    @Override
+    public List<Producto> ListarPorCategoriaId(int categoriaId) {
+        return prorep.findByCategoriaId(categoriaId);
+    }
+    
+    
 }

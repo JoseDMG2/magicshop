@@ -10,5 +10,7 @@ public interface ProductoService {
     Producto actualizar(Producto producto);
     void eliminar(Integer id);
     Producto ListarPorId(Integer id);
+    List<Producto> ListarPorCategoriaId(int categoriaId);
+
     
 }
