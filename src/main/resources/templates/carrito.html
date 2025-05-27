@@ -22,8 +22,8 @@
                     </div>
                     <div class="row mb-2 align-items-center" th:each="detalle : ${detalles}">
                         <div class="col-2">
-                            <img src="https://cdn-contents.weverseshop.io/public/shop/ed67c155d542696f947ef88ff1ebf8eb.png?w=320&q=95" alt="Imagen" class="img-fluid rounded" style="max-width:70px;">
-                            <!-- <img th:src="${detalle.producto.imagen}" alt="Imagen" class="img-fluid rounded" style="max-width:70px;"> -->
+                            <!-- <img src="https://cdn-contents.weverseshop.io/public/shop/ed67c155d542696f947ef88ff1ebf8eb.png?w=320&q=95"alt="Imagen" class="img-fluid rounded" style="max-width:70px;">--> 
+                            <img th:src="${detalle.producto.imagen}" alt="Imagen" class="img-fluid rounded" style="max-width:70px;"> 
                         </div>
                         <div class="col-4" th:text="${detalle.producto.nombre}">Nombre producto</div>
                         <div class="col-2 precio" th:text="'$' + ${detalle.producto.precio}">$0.00</div>
