@@ -9,6 +9,7 @@ import com.magicshop.ecommerce.service.DetallePedidoService;
 import com.magicshop.ecommerce.service.PedidoService;
 import com.magicshop.ecommerce.service.ProductoService;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,70 +42,72 @@ public class HomeController {
     }
     
     @PostMapping("/AgregarCarrito")
-    public String agregarAlCarrito(@RequestParam("id") Integer productoId,@RequestParam("cantidad") Integer cantidad,HttpSession session) {
+    public String agregarAlCarrito(@RequestParam("id") Integer productoId, @RequestParam("cantidad") Integer cantidad, HttpSession session, RedirectAttributes redirectAttributes) {
+        List<DetallePedido> carrito = (List<DetallePedido>) session.getAttribute("carrito");
+        if (carrito == null) carrito = new ArrayList<>();
 
-        // Verificar si el usuario está autenticado 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if (usuario == null) return "redirect:/login";
+        if (usuario == null) {
+            redirectAttributes.addFlashAttribute("mensaje", "¡Debes iniciar sesión para procesar la compra!");
+            return "redirect:/login";
+        }
 
-        // Buscar pedido existente o crea uno nuevo
-        Pedido pedido = pedidoService.ListarPorIdYPorEstado(usuario);
-
-        //Obtener producto
-        Producto producto = productoService.ListarPorId(productoId);
-
-        //Crear DetallePedido
-        DetallePedido detalle = new DetallePedido();
-        detalle.setPedido(pedido);
-        detalle.setProducto(producto);
-        detalle.setCantidad(cantidad);
-        detalle.setPrecio_unitario(producto.getPrecio());
-        detalle.setSubtotal(producto.getPrecio() * cantidad);
-
-        detallePedidoService.registrar(detalle);
-        
-
-        return "redirect:/shop";
+        boolean existe = carrito.stream().anyMatch(d -> d.getProducto().getId() == productoId);
+        if (!existe) {
+            Producto producto = productoService.ListarPorId(productoId);
+            DetallePedido detalle = new DetallePedido();
+            detalle.setProducto(producto);
+            detalle.setCantidad(cantidad);
+            detalle.setPrecio_unitario(producto.getPrecio());
+            detalle.setSubtotal(producto.getPrecio() * cantidad);
+            carrito.add(detalle);
+        }
+        session.setAttribute("carrito", carrito);
+        return "redirect:/carrito";
     }
-    
+
     @GetMapping("/carrito")
     public String verCarrito(HttpSession session, Model model) {
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if (usuario == null) return "redirect:/login";
-
-        Pedido pedido = pedidoService.ListarPorIdYPorEstado(usuario);
-        List<DetallePedido> detalles = detallePedidoService.listarPorPedido(pedido); 
-        
-        double total = detalles.stream()
-             .mapToDouble(DetallePedido::getSubtotal)
-             .sum();
-        pedido.setTotal(total);
-        pedidoService.actualizar(pedido);
-
-        model.addAttribute("pedido", pedido);
-        model.addAttribute("detalles", detalles);
+        List<DetallePedido> carrito = (List<DetallePedido>) session.getAttribute("carrito");
+        if (carrito == null) carrito = new ArrayList<>();
+        double total = carrito.stream().mapToDouble(DetallePedido::getSubtotal).sum();
+        model.addAttribute("detalles", carrito);
         model.addAttribute("total", total);
         return "carrito";
     }
-    
+
+
     @PostMapping("/ProcesarCompra")
     public String procesarCompra(HttpSession session, RedirectAttributes redirectAttributes) {
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if (usuario == null) return "redirect:/login";
-
-        Pedido pedido = pedidoService.ListarPorIdYPorEstado(usuario);
-        List<DetallePedido> detalles = detallePedidoService.listarPorPedido(pedido);
-        if (detalles == null || detalles.isEmpty()) {
-        redirectAttributes.addFlashAttribute("mensaje", "¡No hay productos en el carrito para procesar la compra!");
-        return "redirect:/carrito";
-    }
-
-        pedido.setEstado("comprado");
-        pedidoService.actualizar(pedido);
         
+        List<DetallePedido> carrito = (List<DetallePedido>) session.getAttribute("carrito");
+        if (carrito == null || carrito.isEmpty()) {
+            redirectAttributes.addFlashAttribute("mensaje", "¡No hay productos en el carrito para procesar la compra!");
+            return "redirect:/carrito";
+        }
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) {
+            redirectAttributes.addFlashAttribute("mensaje", "¡Debes iniciar sesión para procesar la compra!");
+            return "redirect:/login";
+        }
+        Pedido pedido = new Pedido();
+        pedido.setUsuario(usuario);
+        pedido.setEstado("comprado");
+        pedido.setFecha(java.time.LocalDate.now().toString());
+        pedidoService.registrar(pedido);
+        for (DetallePedido detalle : carrito) {
+            detalle.setPedido(pedido);
+            detallePedidoService.registrar(detalle);
+        }
 
+        // Actualizar el total
+        double total = carrito.stream().mapToDouble(DetallePedido::getSubtotal).sum();
+        pedido.setTotal(total);
+        pedidoService.actualizar(pedido);
+
+        // Limpiar el carrito de la sesión  
+        session.removeAttribute("carrito");
         redirectAttributes.addFlashAttribute("mensaje", "¡Compra realizada con éxito!");
         return "redirect:/carrito";
     }
-    
 }
