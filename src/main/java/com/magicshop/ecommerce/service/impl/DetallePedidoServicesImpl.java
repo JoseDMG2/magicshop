@@ -1,6 +1,7 @@
 package com.magicshop.ecommerce.service.impl;
 
 import com.magicshop.ecommerce.model.DetallePedido;
+import com.magicshop.ecommerce.model.Pedido;
 import com.magicshop.ecommerce.repository.DetallePedidoRepository;
 import com.magicshop.ecommerce.service.DetallePedidoService;
 import java.util.List;
@@ -36,6 +37,11 @@ public class DetallePedidoServicesImpl implements DetallePedidoService {
     @Override
     public DetallePedido ListarPorId(Integer id) {
         return detrep.findById(id).orElse(null);
+    }
+    
+    @Override
+    public List<DetallePedido> listarPorPedido(Pedido pedido) {
+        return detrep.findByPedido(pedido);
     }
     
 }

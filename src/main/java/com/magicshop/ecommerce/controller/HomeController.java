@@ -9,6 +9,7 @@ import com.magicshop.ecommerce.service.DetallePedidoService;
 import com.magicshop.ecommerce.service.PedidoService;
 import com.magicshop.ecommerce.service.ProductoService;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Controller
@@ -63,6 +65,46 @@ public class HomeController {
         
 
         return "redirect:/shop";
+    }
+    
+    @GetMapping("/carrito")
+    public String verCarrito(HttpSession session, Model model) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) return "redirect:/login";
+
+        Pedido pedido = pedidoService.ListarPorIdYPorEstado(usuario);
+        List<DetallePedido> detalles = detallePedidoService.listarPorPedido(pedido); 
+        
+        double total = detalles.stream()
+             .mapToDouble(DetallePedido::getSubtotal)
+             .sum();
+        pedido.setTotal(total);
+        pedidoService.actualizar(pedido);
+
+        model.addAttribute("pedido", pedido);
+        model.addAttribute("detalles", detalles);
+        model.addAttribute("total", total);
+        return "carrito";
+    }
+    
+    @PostMapping("/ProcesarCompra")
+    public String procesarCompra(HttpSession session, RedirectAttributes redirectAttributes) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) return "redirect:/login";
+
+        Pedido pedido = pedidoService.ListarPorIdYPorEstado(usuario);
+        List<DetallePedido> detalles = detallePedidoService.listarPorPedido(pedido);
+        if (detalles == null || detalles.isEmpty()) {
+        redirectAttributes.addFlashAttribute("mensaje", "¡No hay productos en el carrito para procesar la compra!");
+        return "redirect:/carrito";
+    }
+
+        pedido.setEstado("comprado");
+        pedidoService.actualizar(pedido);
+        
+
+        redirectAttributes.addFlashAttribute("mensaje", "¡Compra realizada con éxito!");
+        return "redirect:/carrito";
     }
     
 }

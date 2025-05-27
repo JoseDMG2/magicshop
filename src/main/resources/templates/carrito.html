@@ -1,15 +1,63 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
+<html lang="en" th:replace="~{base::layout(~{::section})}">
+<head>
+        <title>Carrito</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>TODO write content</div>
+    <section>
+        <div class="container my-5">
+        <h2 class="text-center mb-4 fw-bold">Mi lista de carrito</h2>
+        <div class="row">
+            <!-- Lista de productos -->
+            <div class="col-md-8">
+                <div class="card-carrito bg-white mb-3">
+                    <div class="row mb-2 align-items-center">
+                        <div class="col-2 text-start"></div>
+                        <div class="col-4 text-start">PRODUCTO</div>
+                        <div class="col-2 text-start">P.UNIT..</div>
+                        <div class="col-1 text-start">CANT.</div>
+                        <div class="col-3 text-start">IMPORTE</div>
+                    </div>
+                    <div class="row mb-2 align-items-center" th:each="detalle : ${detalles}">
+                        <div class="col-2">
+                            <img src="https://cdn-contents.weverseshop.io/public/shop/ed67c155d542696f947ef88ff1ebf8eb.png?w=320&q=95" alt="Imagen" class="img-fluid rounded" style="max-width:70px;">
+                            <!-- <img th:src="${detalle.producto.imagen}" alt="Imagen" class="img-fluid rounded" style="max-width:70px;"> -->
+                        </div>
+                        <div class="col-4" th:text="${detalle.producto.nombre}">Nombre producto</div>
+                        <div class="col-2 precio" th:text="'$' + ${detalle.producto.precio}">$0.00</div>
+                        <div class="col-1" th:text="${detalle.cantidad}"></div>
+                        <div class="col-3 subtotal" th:text="'$' + ${detalle.subtotal}">$0.00
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Detalles Compra -->
+            <div class="col-md-4">
+                <div class="card-carrito bg-white">
+                    <h5>Total de la Compra</h5>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                    <span>Subtotal:</span>
+                     <span th:text="'$' + ${total}">$0.00</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                    <span>Envío:</span><span>Gratis</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between fw-bold">
+                    <span>Total:</span>
+                    <span th:text="'$' + ${total}">$0.00</span>
+                    </div>
+                   <form th:action="@{/ProcesarCompra}" method="post">
+                        <button type="submit" class="btn btn-primary w-100 mt-4">Realizar la compra</button>
+                    </form>
+                </div>
+            </div>
+            <div th:if="${mensaje}" class="alert alert-success text-center mt-4" th:text="${mensaje}"></div>
+        </div>
+        </div>
+        </section>
     </body>
 </html>

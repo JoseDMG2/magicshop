@@ -38,7 +38,7 @@
                         <span th:if="${session.usuario != null}">
                         <a th:href="@{/logout}" class="login-link me-3">Log out</a>
                         <a href="#" class="icon-link"><i class="fas fa-search"></i></a>
-                        <a href="#" class="icon-link position-relative">
+                        <a th:href="@{/carrito}" class="icon-link position-relative">
                             <i class="fas fa-shopping-cart"></i>
                         </a>
                         <a href="#" class="icon-link position-relative">
