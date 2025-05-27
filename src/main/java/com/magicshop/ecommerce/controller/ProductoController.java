@@ -18,46 +18,46 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/productos")
 public class ProductoController {
-    
+
     @Autowired
     private ProductoService service;
-    
+
     @GetMapping
     public ResponseEntity<List<Producto>> listar() {
         List<Producto> obj = service.listar();
         return new ResponseEntity<List<Producto>>(obj, HttpStatus.OK);
     }
-    
-    @PostMapping
-    public ResponseEntity<Producto> registrar(@RequestBody Producto producto){
+
+    @PostMapping("/registrar")
+    public ResponseEntity<Producto> registrar(Producto producto) {
         Producto obj = service.registrar(producto);
         return new ResponseEntity<Producto>(obj, HttpStatus.OK);
     }
-    
+
     @PutMapping
-    public ResponseEntity<Producto> actualizar(@RequestBody Producto producto){
+    public ResponseEntity<Producto> actualizar(@RequestBody Producto producto) {
         Producto obj = service.registrar(producto);
         return new ResponseEntity<Producto>(obj, HttpStatus.OK);
     }
-    
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable("id") Integer id) throws Exception{
+    public ResponseEntity<Void> eliminar(@PathVariable("id") Integer id) throws Exception {
         Producto obj = service.ListarPorId(id);
-        if(obj == null) {
+        if (obj == null) {
             throw new Exception("No se encontró el ID");
         }
         service.eliminar(id);
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
-    
+
     @GetMapping("/{id}")
-    public ResponseEntity<Producto> listarPorId(@PathVariable("id") Integer id) throws Exception{
+    public ResponseEntity<Producto> listarPorId(@PathVariable("id") Integer id) throws Exception {
         Producto obj = service.ListarPorId(id);
-        if(obj == null) {
+        if (obj == null) {
             throw new Exception("No se encontró el ID");
         }
         service.eliminar(id);
         return new ResponseEntity<Producto>(obj, HttpStatus.OK);
     }
-    
+
 }
