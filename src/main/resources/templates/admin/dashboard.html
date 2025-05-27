@@ -151,7 +151,8 @@
                                         <select class="form-control border-2"
                                             style="border-color: var(--color-secundario);" th:field="*{categoria}"
                                             id="productoCategoria" required>
-                                            <option value="" disabled>Seleccione una categoría</option>
+                                            <option value="" th:text="'Seleccione una categoría'"
+                                                th:if="${#fields.hasErrors('categoria') or categoria == null}"></option>
                                             <option th:each="cat : ${categorias}" th:value="${cat.id}"
                                                 th:text="${cat.nombre}"></option>
                                         </select>
