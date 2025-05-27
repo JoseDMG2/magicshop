@@ -2,6 +2,7 @@ package com.magicshop.ecommerce.controller;
 
 import com.magicshop.ecommerce.model.Producto;
 import com.magicshop.ecommerce.model.Usuario;
+import com.magicshop.ecommerce.service.CategoriaService;
 import com.magicshop.ecommerce.service.ProductoService;
 import com.magicshop.ecommerce.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,15 @@ public class DashboardController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private CategoriaService categoriaService;
+
     // LISTAR SEGÚN LA VISTA
     @GetMapping
     public String mostrarDashboard(
             @RequestParam(value = "vista", required = false, defaultValue = "inicio") String vista,
             Model model) {
-
+        model.addAttribute("categorias", categoriaService.listar());
         if (vista.equals("productos")) {
             model.addAttribute("productos", productoService.listar());
             model.addAttribute("nuevoProducto", new Producto());

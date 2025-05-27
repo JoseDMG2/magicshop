@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CategoriaServicesImpl implements CategoriaService{
-    
+public class CategoriaServicesImpl implements CategoriaService {
+
     @Autowired
     CategoriaRepository categoriaRepository;
 
@@ -18,5 +18,5 @@ public class CategoriaServicesImpl implements CategoriaService{
     public List<Categoria> listar() {
         return categoriaRepository.findAll();
     }
-    
+
 }

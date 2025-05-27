@@ -62,22 +62,16 @@ function abrirModalAgregarProducto() {
     const form = modal.querySelector('form');
     const btnSubmit = form.querySelector('button[type="submit"]');
 
-    // Limpiar valores del formulario
     form.reset();
 
-    // Cambiar action para registrar (agregar)
     form.action = '/admin/dashboard/productos/registrar';
 
-    // Cambiar texto del botón
     btnSubmit.textContent = 'Guardar';
     btnSubmit.classList.remove('btn-warning');
     btnSubmit.classList.add('btn-primary');
 
-    // Cambiar título del modal
     modal.querySelector('.modal-title').textContent = 'Agregar Producto';
 }
-
-
 
 function abrirModalEditarProducto(button) {
     const modal = document.getElementById('modalProducto');
@@ -92,12 +86,12 @@ function abrirModalEditarProducto(button) {
 
     // Rellenar campos con datos del botón
     form.querySelector('input[name="id"]').value = button.getAttribute('data-id');
-    form.querySelector('input[name="categoria"]').value = button.getAttribute('data-categoria');
+    form.querySelector('select[name="categoria"]').value = button.getAttribute('data-categoria-id'); // <- Aquí selecciona la categoría por ID
     form.querySelector('input[name="descripcion"]').value = button.getAttribute('data-descripcion');
     form.querySelector('input[name="nombre"]').value = button.getAttribute('data-nombre');
     form.querySelector('input[name="precio"]').value = button.getAttribute('data-precio');
     form.querySelector('input[name="stock"]').value = button.getAttribute('data-stock');
 
-    // Cambiar título del modal (si quieres)
+    // Cambiar título del modal (opcional)
     modal.querySelector('.modal-title').textContent = 'Editar Producto';
 }
