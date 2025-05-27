@@ -32,7 +32,7 @@ public class ProductoServiceTest {
         producto.setNombre("ElMachoAlfa");
         producto.setPrecio(40.0);
         producto.setStock(20);
-        producto.setCategoria("Perfumes");
+        //producto.setCategoria("Perfumes");
         producto.setDescripcion("Perfume para la más princesa");
         producto.setId(9);
     }
