@@ -35,7 +35,7 @@ public class AuthController {
             model.addAttribute("error", "El correo ya está registrado.");
             return "register";
         }
-        usuario.setRol("usuario");
+        usuario.setRol("CLIENTE");
         usuarioService.registrar(usuario);
         return "redirect:/login";
     }

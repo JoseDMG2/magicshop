@@ -188,8 +188,18 @@
                                                 style="border-color: var(--color-secundario);" th:field="*{stock}"
                                                 id="productoStock" required>
                                         </div>
-                                    </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold"
+                                                style="color: var(--color-primario);">Imagen</label>
+                                            <input type="text" class="form-control border-2"
+                                                style="border-color: var(--color-secundario);" th:field="*{imagen}"
+                                                id="productoImagen" required>
+                                        </div>
 
+                                    </div>
+                                    
+                                    
                                     <div class="modal-footer border-0">
                                         <button type="button" class="btn btn-outline-secondary"
                                             data-bs-dismiss="modal">Cancelar</button>
