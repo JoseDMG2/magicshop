@@ -28,7 +28,7 @@ public class UsuarioController {
         return new ResponseEntity<List<Usuario>>(obj, HttpStatus.OK);
     }
     
-    @PostMapping
+    @PostMapping("/registrar")
     public ResponseEntity<Usuario> registrar(@RequestBody Usuario usuario){
         Usuario obj = service.registrar(usuario);
         return new ResponseEntity<Usuario>(obj, HttpStatus.OK);
