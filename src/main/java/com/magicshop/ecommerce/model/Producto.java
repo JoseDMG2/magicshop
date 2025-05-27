@@ -28,18 +28,21 @@ public class Producto {
     
     @Column(name="stock", length = 100, nullable = false)
     private int stock;
-    
+        
     @ManyToOne
     @JoinColumn(name = "id_categoria")
     private Categoria categoria;
     
+    @Column(name = "imagen", length = 255) 
+    private String imagen;
     //Constructores
-    public Producto(String nombre, String descripcion, double precio, int stock, Categoria categoria) {
+    public Producto(String nombre, String descripcion, double precio, int stock, Categoria categoria, String imagen) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.stock = stock;
         this.categoria = categoria;
+        this.imagen = imagen;
     }
     
     public Producto() {
@@ -92,5 +95,15 @@ public class Producto {
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+    
+    
 
 }

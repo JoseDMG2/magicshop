@@ -109,5 +109,6 @@ public class HomeController {
         session.removeAttribute("carrito");
         redirectAttributes.addFlashAttribute("mensaje", "¡Compra realizada con éxito!");
         return "redirect:/carrito";
+        
     }
 }

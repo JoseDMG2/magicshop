@@ -4,6 +4,7 @@
         <title>Contenido Principal</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
     </head>
     <body>
         <section>
@@ -37,33 +38,25 @@
                     <div class="col-12 col-md-6">
                         <div class="card h-100 text-center">
                             <img src="https://cdn-contents.weverseshop.io/public/shop/6a283953d3f3f3d5c308c30c5e967a73.jpg?w=320&q=95" class="card-img-top" alt="T-shirt BTS">
-                            <div class="card-body">
-                                <a href="#" class="btn btn-info text-white fw-bold">Detalles</a>
-                            </div>
+        
                         </div>
                     </div>
 
                     <div class="col-12 col-md-3">
                         <div class="card h-100 text-center">
                             <img src="https://cdn-contents.weverseshop.io/public/shop/c1a2d4dcbee5d141b3b583974e9c3dba.jpg?w=320&q=95" class="card-img-top" alt="Light Stick">
-                            <div class="card-body">
-                                <a href="#" class="btn btn-info text-white fw-bold">Detalles</a>
-                            </div>
+                        
                         </div>
                     </div>
 
                     <div class="col-12 col-md-3 d-flex flex-column justify-content-between">
                         <div class="card text-center small-card mb-1">
                             <img src="https://cdn-contents.weverseshop.io/public/shop/507e3d0f1c43df79d1da273648e05645.png?w=320&q=95" class="card-img-top" alt="BTS Album">
-                            <div class="card-body">
-                                <a href="#" class="btn btn-info text-white fw-bold">Detalles</a>
-                            </div>
+                          
                         </div>
                         <div class="card text-center small-card">
                             <img src="https://cdn-contents.weverseshop.io/public/shop/54260d7d0b23c3745adf17f3c6beb854.jpg?w=320&q=95" class="card-img-top" alt="House Card BTS">
-                            <div class="card-body">
-                                <a href="#" class="btn btn-info text-white fw-bold">Detalles</a>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -73,13 +66,15 @@
             <section class="section-product">
                 <div class="container my-5">
                     <h4 class="fw-bold">Productos</h4>
-                    <div class="row row-cols-1 row-cols-md-5 g-4">
-                        <div class="col" th:each="cat : ${categorias}">
-                            <a th:href="@{/shop(categoriaId=${cat.id})}">
-                                <span class="category" th:text="${cat.nombre}">Categoria</span>
-                                <!-- añadir imagen a la tabla categoria -->
-                                <img src="https://cdn-contents.weverseshop.io/public/shop/c6e60dbc87d9db215bed26652ee71f41.jpg?w=720&q=95" 
-                                class="img-fluid" th:alt="${cat.nombre}">
+
+                    <!-- Fila deslizable -->
+                    <div class="d-flex overflow-auto gap-3 py-3">
+                        <div class="flex-shrink-0 text-center" th:each="cat : ${categorias}">
+                            <a th:href="@{/shop(categoriaId=${cat.id})}" class="text-decoration-none">
+                                <div class="position-relative">
+                                    <img th:src="${cat.imagen}" class="img-fluid rounded" th:alt="${cat.nombre}" style="width: 200px; height: 200px; object-fit: cover;">
+                                    <span class="position-absolute top-50 start-50 translate-middle text-white fw-bold fs-5" th:text="${cat.nombre}">Categoria</span>
+                                </div>
                             </a>
                         </div>
                     </div>
@@ -87,38 +82,42 @@
             </section>
 
 
-            <!-- Productos filtrados -->
-            <section class="container my-5 section-filter">
-                <div class="container my-4">
-                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
 
-                        <div class="text-muted">
-                           <span th:text="${productos != null ? productos.size() : 0} + ' Resultados Encontrados'">0 Resultados Encontrados</span>
+
+                <!-- Productos filtrados -->
+                <section class="container my-5 section-filter">
+                    <div class="container my-4">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                            <div class="text-muted">
+                                <span th:text="${productos != null ? productos.size() : 0} + ' Resultados Encontrados'">
+                                    0 Resultados Encontrados
+                                </span>
+                            </div>
+
+                            <div class="d-flex align-items-center gap-2 ms-auto">
+                                <select class="form-select" style="max-width: 150px;">
+                                    <option selected>Lo mejor</option>
+                                    <option value="1">Más recientes</option>
+                                    <option value="2">Más vendidos</option>
+                                    <option value="3">Precio: menor a mayor</option>
+                                </select>
+                                <button class="btn btn-primary fw-semibold">Filtrar</button>
+                            </div>
                         </div>
+                    </div>
 
-                        <div class="d-flex align-items-center gap-2 ms-auto">
-                            <select class="form-select" style="max-width: 150px;">
-                                <option selected>Lo mejor</option>
-                                <option value="1">Más recientes</option>
-                                <option value="2">Más vendidos</option>
-                                <option value="3">Precio: menor a mayor</option>
-                            </select>
-                            <button class="btn btn-primary fw-semibold">Filtrar</button>
+                    <div class="row row-cols-2 row-cols-md-4 g-4 justify-content-center">
+                        <div class="col" th:each="producto : ${productos}">
+                            <div class="product-card text-center">
+                                <!-- Imagen dinámica del producto -->
+                                <img th:src="${producto.Imagen}" class="img-fluid" th:alt="${producto.nombre}">
+                                <p class="mt-2" th:text="${producto.nombre}">Nombre del producto</p>
+                                <p><strong th:text="'$' + ${producto.precio}">S/. 0.00</strong></p>
+                            </div>
                         </div>
+                    </div>
+                </section>
 
-                    </div>
-                </div>
-                <div class="row row-cols-2 row-cols-md-4 g-4 justify-content-center">
-                <div class="col" th:each="producto : ${productos}">
-                    <div class="product-card text-center">
-                        <!-- añadir imagen a la tabla productos -->
-                        <img src="https://cdn-contents.weverseshop.io/public/shop/ed67c155d542696f947ef88ff1ebf8eb.png?w=320&q=95"
-                             class="img-fluid" th:alt="${producto.nombre}">
-                        <p class="mt-2" th:text="${producto.nombre}">Nombre del producto</p>
-                        <p><strong th:text="'$' + ${producto.precio}">$0.00</strong></p>
-                    </div>
-                </div>
-            </div>
                 <!-- Paginacion -->
                 <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-center">  
@@ -139,30 +138,30 @@
                     <div class="row row-cols-2 row-cols-md-4 g-4">
                         <div class="col">
                             <div class="product-card text-center">
-                                <img src="https://cdn-contents.weverseshop.io/public/shop/ecd18799008e8202a634ff8fb53fabee.png?w=320&q=95" class="img-fluid" alt="Mochila BTS">
-                                <p class="mt-2">Pulsera BTS</p>
-                                <p><del>$30.00</del> <strong>$15.00</strong></p>
+                                <img src="https://cdn-contents.weverseshop.io/public/shop/8bda2d1e7eb4018ad00e87de37e0ad3f.png?w=720&q=95" class="img-fluid" alt="Mochila BTS">
+                                <p class="mt-2">Baby Plush Keyring Orange Party</p>
+                                <p><del>$30.00</del> <strong>$14.16</strong></p>
                             </div>
                         </div>
                         <div class="col">
                             <div class="product-card text-center">
-                                <img src="https://cdn-contents.weverseshop.io/public/shop/ecd18799008e8202a634ff8fb53fabee.png?w=320&q=95" class="img-fluid" alt="Mochila BTS">
-                                <p class="mt-2">Pulsera BTS</p>
-                                <p><del>$30.00</del> <strong>$15.00</strong></p>
+                                <img src="https://cdn-contents.weverseshop.io/public/shop/e401d405d6d51bdc50dca741fc85ba94.jpg?w=720&q=95" class="img-fluid" alt="Mochila BTS">
+                                <p class="mt-2">Villain Plush Keyring Angel & Villain</p>
+                                <p><del>$30.00</del> <strong>$13.37</strong></p>
                             </div>
                         </div>
                         <div class="col">
                             <div class="product-card text-center">
-                                <img src="https://cdn-contents.weverseshop.io/public/shop/ecd18799008e8202a634ff8fb53fabee.png?w=320&q=95" class="img-fluid" alt="Mochila BTS">
-                                <p class="mt-2">Pulsera BTS</p>
-                                <p><del>$30.00</del> <strong>$15.00</strong></p>
+                                <img src="https://cdn-contents.weverseshop.io/public/shop/652fd85f42215ddf2acf37fe0fbff2b5.png?w=720&q=95" class="img-fluid" alt="Mochila BTS">
+                                <p class="mt-2">Baby Plush Keyring Newborn Season2</p>
+                                <p><del>$30.00</del> <strong>$13.37</strong></p>
                             </div>
                         </div>
                         <div class="col">
                             <div class="product-card text-center">
-                                <img src="https://cdn-contents.weverseshop.io/public/shop/ecd18799008e8202a634ff8fb53fabee.png?w=320&q=95" class="img-fluid" alt="Mochila BTS">
-                                <p class="mt-2">Pulsera BTS</p>
-                                <p><del>$30.00</del> <strong>$15.00</strong></p>
+                                <img src="https://cdn-contents.weverseshop.io/public/shop/d7823c535baa5e712dfd2213ce3deb2d.png?w=720&q=95" class="img-fluid" alt="Mochila BTS">
+                                <p class="mt-2">BABY LYING DOLL FLUFFY</p>
+                                <p><del>$30.00</del> <strong>$25.97</strong></p>
                             </div>
                         </div>
                     </div>

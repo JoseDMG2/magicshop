@@ -17,7 +17,10 @@ public class Categoria {
     
     @Column(name = "nombre", nullable = false,length = 100)
     private String nombre;
-
+    
+    @Column(name = "imagen", length = 255) 
+    private String imagen;
+            
     public int getId() {
         return id;
     }
@@ -32,6 +35,14 @@ public class Categoria {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
     
     
