@@ -60,4 +60,13 @@ public class ProductoController {
         return new ResponseEntity<Producto>(obj, HttpStatus.OK);
     }
 
+    @GetMapping("categorias/{id}")
+    public ResponseEntity<List<Producto>> listarPorCategoria(@PathVariable("id") Integer id) throws Exception {
+        List<Producto> obj = service.ListarPorCategoriaId(id);
+        if (obj == null) {
+            throw new Exception("No se encontró el ID");
+        }
+        return new ResponseEntity<List<Producto>>(obj, HttpStatus.OK);
+    }
+
 }
