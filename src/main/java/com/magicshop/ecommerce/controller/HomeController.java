@@ -11,18 +11,18 @@ import com.magicshop.ecommerce.service.PedidoService;
 import com.magicshop.ecommerce.service.ProductoService;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@Controller
+@RestController
 @RequestMapping("/")
 public class HomeController {
 
@@ -35,32 +35,25 @@ public class HomeController {
     @Autowired
     private PedidoService pedidoService;
 
-    @GetMapping("")
-    public String index(Model model) {
-        model.addAttribute("productos", productoService.listar());
-        model.addAttribute("categorias", categoriaService.listar());
-        return "index";
-    }
-
     @GetMapping("/categorias")
     @ResponseBody
     public List<Categoria> obtenerCategorias() {
         return categoriaService.listar();
     }
 
-    @PostMapping("/AgregarCarrito")
-    public String agregarAlCarrito(@RequestParam("id") Integer productoId, @RequestParam("cantidad") Integer cantidad,
-            HttpSession session, RedirectAttributes redirectAttributes) {
-        List<DetallePedido> carrito = (List<DetallePedido>) session.getAttribute("carrito");
-        if (carrito == null)
-            carrito = new ArrayList<>();
-
+     @PostMapping("/carrito")
+    public Map<String, Object> agregarAlCarrito(@RequestBody Map<String, Object> payload, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if (usuario == null) {
-            redirectAttributes.addFlashAttribute("mensaje", "¡Debes iniciar sesión para procesar la compra!");
-            return "redirect:/login";
+        Integer productoId = (Integer) payload.get("productoId");
+        Integer cantidad = (Integer) payload.get("cantidad");
+        List<DetallePedido> carrito = (List<DetallePedido>) session.getAttribute("carrito");
+        if(usuario == null) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "error");
+            response.put("mensaje", "¡Debes iniciar sesión para procesar la compra!");
+            return response;
         }
-
+        if (carrito == null) carrito = new ArrayList<>();
         boolean existe = carrito.stream().anyMatch(d -> d.getProducto().getId() == productoId);
         if (!existe) {
             Producto producto = productoService.ListarPorId(productoId);
@@ -72,33 +65,35 @@ public class HomeController {
             carrito.add(detalle);
         }
         session.setAttribute("carrito", carrito);
-        return "redirect:/carrito";
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "ok");
+        return response;
     }
 
     @GetMapping("/carrito")
-    public String verCarrito(HttpSession session, Model model) {
+    public List<DetallePedido> obtenerCarrito(HttpSession session) {
         List<DetallePedido> carrito = (List<DetallePedido>) session.getAttribute("carrito");
-        if (carrito == null)
-            carrito = new ArrayList<>();
-        double total = carrito.stream().mapToDouble(DetallePedido::getSubtotal).sum();
-        model.addAttribute("detalles", carrito);
-        model.addAttribute("total", total);
-        return "carrito";
+        if (carrito == null) carrito = new ArrayList<>();
+        return carrito;
     }
-
-    @PostMapping("/ProcesarCompra")
-    public String procesarCompra(HttpSession session, RedirectAttributes redirectAttributes) {
-
+    
+    @PostMapping("/procesar-compra")
+    public Map<String, Object> procesarCompra(HttpSession session) {
         List<DetallePedido> carrito = (List<DetallePedido>) session.getAttribute("carrito");
+        Map<String, Object> response = new HashMap<>();
         if (carrito == null || carrito.isEmpty()) {
-            redirectAttributes.addFlashAttribute("mensaje", "¡No hay productos en el carrito para procesar la compra!");
-            return "redirect:/carrito";
+            response.put("status", "error");
+            response.put("mensaje", "¡No hay productos en el carrito!");
+            return response;
         }
+
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if (usuario == null) {
-            redirectAttributes.addFlashAttribute("mensaje", "¡Debes iniciar sesión para procesar la compra!");
-            return "redirect:/login";
+         if (usuario == null) {
+            response.put("status", "error");
+            response.put("mensaje", "¡Debes iniciar sesión para procesar la compra!");
+            return response;
         }
+
         Pedido pedido = new Pedido();
         pedido.setUsuario(usuario);
         pedido.setEstado("comprado");
@@ -113,11 +108,10 @@ public class HomeController {
         double total = carrito.stream().mapToDouble(DetallePedido::getSubtotal).sum();
         pedido.setTotal(total);
         pedidoService.actualizar(pedido);
-
-        // Limpiar el carrito de la sesión
+        
         session.removeAttribute("carrito");
-        redirectAttributes.addFlashAttribute("mensaje", "¡Compra realizada con éxito!");
-        return "redirect:/carrito";
-
+        response.put("status", "ok");
+        response.put("mensaje", "¡Compra realizada con éxito!");
+        return response;
     }
 }
