@@ -2,16 +2,16 @@ package com.magicshop.ecommerce.controller;
 
 import com.magicshop.ecommerce.model.Producto;
 import com.magicshop.ecommerce.model.Usuario;
+import com.magicshop.ecommerce.model.Categoria;
 import com.magicshop.ecommerce.service.CategoriaService;
 import com.magicshop.ecommerce.service.ProductoService;
 import com.magicshop.ecommerce.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
-@Controller
-@RequestMapping("/admin/dashboard")
+@RestController
+@RequestMapping("/api")
 public class DashboardController {
 
     @Autowired
@@ -23,85 +23,64 @@ public class DashboardController {
     @Autowired
     private CategoriaService categoriaService;
 
-    // LISTAR SEGÚN LA VISTA
-    @GetMapping
-    public String mostrarDashboard(
-            @RequestParam(value = "vista", required = false, defaultValue = "inicio") String vista,
-            Model model) {
-        model.addAttribute("categorias", categoriaService.listar());
-        if (vista.equals("productos")) {
-            model.addAttribute("productos", productoService.listar());
-            model.addAttribute("nuevoProducto", new Producto());
-        } else if (vista.equals("usuarios")) {
-            model.addAttribute("usuarios", usuarioService.listar());
-            model.addAttribute("nuevoUsuario", new Usuario());
-        }
+    // === PRODUCTOS ===
 
-        model.addAttribute("vista", vista);
-        return "admin/dashboard";
+    @GetMapping("/productos")
+    public List<Producto> listarProductos() {
+        return productoService.listar();
     }
 
-    // === CRUD PRODUCTOS ===
-
-    // REGISTRAR PRODUCTO
-    @PostMapping("/productos/registrar")
-    public String registrarProducto(@ModelAttribute Producto producto) {
-        productoService.registrar(producto);
-        return "redirect:/admin/dashboard?vista=productos";
+    @GetMapping("/productos/{id}")
+    public Producto obtenerProducto(@PathVariable Integer id) {
+        return productoService.ListarPorId(id);
     }
 
-    // EDITAR PRODUCTO
-    @GetMapping("/productos/editar/{id}")
-    public String editarProducto(@PathVariable("id") Integer id, Model model) {
-        model.addAttribute("productoEditar", productoService.ListarPorId(id));
-        model.addAttribute("productos", productoService.listar());
-        model.addAttribute("vista", "productos");
-        return "admin/dashboard";
+    @PostMapping("/productos")
+    public Producto registrarProducto(@RequestBody Producto producto) {
+        return productoService.registrar(producto);
     }
 
-    // ACTUALIZAR PRODUCTO
-    @PostMapping("/productos/actualizar")
-    public String actualizarProducto(@ModelAttribute Producto producto) {
-        productoService.registrar(producto); // puede ser registrar o actualizar
-        return "redirect:/admin/dashboard?vista=productos";
+    @PutMapping("/productos/{id}")
+    public Producto actualizarProducto(@PathVariable Integer id, @RequestBody Producto producto) {
+        producto.setId(id);
+        return productoService.registrar(producto);
     }
 
-    // ELIMINAR PRODUCTO
-    @GetMapping("/productos/eliminar/{id}")
-    public String eliminarProducto(@PathVariable("id") Integer id) {
+    @DeleteMapping("/productos/{id}")
+    public void eliminarProducto(@PathVariable Integer id) {
         productoService.eliminar(id);
-        return "redirect:/admin/dashboard?vista=productos";
     }
 
-    // === CRUD usuarios ===
-
-    // REGISTRAR USUARIO
-    @PostMapping("/usuarios/registrar")
-    public String registrarUsuario(@ModelAttribute Usuario usuario) {
-        usuarioService.registrar(usuario);
-        return "redirect:/admin/dashboard?vista=usuarios";
+    @GetMapping("/categorias")
+    public List<Categoria> listarCategorias() {
+        return categoriaService.listar();
     }
 
-    // EDITAR USUARIO
-    @GetMapping("/usuarios/editar/{id}")
-    public String editarUsuario(@PathVariable("id") Integer id, Model model) {
-        model.addAttribute("usuarioEditar", usuarioService.ListarPorId(id));
-        model.addAttribute("usuarios", usuarioService.listar());
-        model.addAttribute("vista", "usuarios");
-        return "admin/dashboard";
+    // === USUARIOS ===
+
+    @GetMapping("/usuarios")
+    public List<Usuario> listarUsuarios() {
+        return usuarioService.listar();
     }
 
-    // ACTUALIZAR USUARIO
-    @PostMapping("/usuarios/actualizar")
-    public String actualizarUsuario(@ModelAttribute Usuario usuario) {
-        usuarioService.registrar(usuario);
-        return "redirect:/admin/dashboard?vista=usuarios";
+    @GetMapping("/usuarios/{id}")
+    public Usuario obtenerUsuario(@PathVariable Integer id) {
+        return usuarioService.ListarPorId(id);
     }
 
-    // ELIMINAR USUARIO
-    @GetMapping("/usuarios/eliminar/{id}")
-    public String eliminarUsuario(@PathVariable("id") Integer id) {
+    @PostMapping("/usuarios")
+    public Usuario registrarUsuario(@RequestBody Usuario usuario) {
+        return usuarioService.registrar(usuario);
+    }
+
+    @PutMapping("/usuarios/{id}")
+    public Usuario actualizarUsuario(@PathVariable Integer id, @RequestBody Usuario usuario) {
+        usuario.setId(id);
+        return usuarioService.registrar(usuario);
+    }
+
+    @DeleteMapping("/usuarios/{id}")
+    public void eliminarUsuario(@PathVariable Integer id) {
         usuarioService.eliminar(id);
-        return "redirect:/admin/dashboard?vista=usuarios";
     }
 }
