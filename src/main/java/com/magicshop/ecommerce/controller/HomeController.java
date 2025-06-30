@@ -19,8 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -94,6 +97,46 @@ public class HomeController {
         List<DetallePedido> carrito = (List<DetallePedido>) session.getAttribute("carrito");
         if (carrito == null) carrito = new ArrayList<>();
         return carrito;
+    }
+
+    @PutMapping("/carrito/{productoId}")
+    public ResponseEntity<?> actualizarCarrito(@PathVariable int productoId, @RequestBody CarritoRequest carritoRequest, HttpSession session) {
+        List<DetallePedido> carrito = (List<DetallePedido>) session.getAttribute("carrito");
+        if (carrito == null) carrito = new ArrayList<>();
+        
+        for (DetallePedido detalle : carrito) {
+            if (detalle.getProducto().getId() == productoId) {
+                detalle.setCantidad(carritoRequest.cantidad);
+                detalle.setSubtotal(detalle.getPrecio_unitario() * carritoRequest.cantidad);
+                session.setAttribute("carrito", carrito);
+                Map<String, Object> mensaje = new HashMap<>();
+                mensaje.put("mensaje", "Carrito actualizado");
+                return ResponseEntity.ok(mensaje);
+            }
+        }
+        
+        Map<String, Object> error = new HashMap<>();
+        error.put("mensaje", "Producto no encontrado en el carrito");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    
+
+    @DeleteMapping("/carrito/{productoId}")
+    public ResponseEntity<?> eliminarDelCarrito(@PathVariable int productoId, HttpSession session) {
+        List<DetallePedido> carrito = (List<DetallePedido>) session.getAttribute("carrito");
+        if (carrito == null) carrito = new ArrayList<>();
+        boolean removed = carrito.removeIf(detalle -> detalle.getProducto().getId() == productoId);
+        session.setAttribute("carrito", carrito);
+
+        Map<String, Object> mensaje = new HashMap<>();
+        if (removed) {
+            mensaje.put("mensaje", "Producto eliminado del carrito");
+            return ResponseEntity.ok(mensaje);
+        } else {
+            mensaje.put("mensaje", "Producto no encontrado en el carrito");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(mensaje);
+        }
     }
     
     @PostMapping("/procesar-compra")
