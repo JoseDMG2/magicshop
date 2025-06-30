@@ -14,7 +14,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,33 +44,49 @@ public class HomeController {
         return categoriaService.listar();
     }
 
-     @PostMapping("/carrito")
-    public Map<String, Object> agregarAlCarrito(@RequestBody Map<String, Object> payload, HttpSession session) {
+    public static class CarritoRequest {
+        private int productoId;
+        private int cantidad;
+
+        public int getProductoId() {
+            return productoId;
+        }
+        public void setProductoId(int productoId) {
+            this.productoId = productoId;
+        }
+        public int getCantidad() {
+            return cantidad;
+        }
+        public void setCantidad(int cantidad) {
+            this.cantidad = cantidad;
+        }
+    }
+
+    @PostMapping("/carrito")
+    public ResponseEntity<?> agregarAlCarrito(@RequestBody CarritoRequest carritoRequest, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-        Integer productoId = (Integer) payload.get("productoId");
-        Integer cantidad = (Integer) payload.get("cantidad");
         List<DetallePedido> carrito = (List<DetallePedido>) session.getAttribute("carrito");
         if(usuario == null) {
-            Map<String, Object> response = new HashMap<>();
-            response.put("status", "error");
-            response.put("mensaje", "¡Debes iniciar sesión para procesar la compra!");
-            return response;
+            Map<String, Object> error = new HashMap<>();
+            error.put("mensaje", "¡Debes iniciar sesión para procesar la compra!");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
         }
         if (carrito == null) carrito = new ArrayList<>();
-        boolean existe = carrito.stream().anyMatch(d -> d.getProducto().getId() == productoId);
+        boolean existe = carrito.stream().anyMatch(d -> d.getProducto().getId() == carritoRequest.productoId);
         if (!existe) {
-            Producto producto = productoService.ListarPorId(productoId);
+            Producto producto = productoService.ListarPorId(carritoRequest.productoId);
             DetallePedido detalle = new DetallePedido();
             detalle.setProducto(producto);
-            detalle.setCantidad(cantidad);
+            detalle.setCantidad(carritoRequest.cantidad);
             detalle.setPrecio_unitario(producto.getPrecio());
-            detalle.setSubtotal(producto.getPrecio() * cantidad);
+            detalle.setSubtotal(producto.getPrecio() * carritoRequest.cantidad);
             carrito.add(detalle);
         }
         session.setAttribute("carrito", carrito);
-        Map<String, Object> response = new HashMap<>();
-        response.put("status", "ok");
-        return response;
+
+        Map<String, Object> mensaje = new HashMap<>();
+        mensaje.put("mensaje", "Producto agregado al carrito");
+        return ResponseEntity.ok(mensaje);
     }
 
     @GetMapping("/carrito")
@@ -78,20 +97,19 @@ public class HomeController {
     }
     
     @PostMapping("/procesar-compra")
-    public Map<String, Object> procesarCompra(HttpSession session) {
+    public ResponseEntity<?> procesarCompra(HttpSession session) {
         List<DetallePedido> carrito = (List<DetallePedido>) session.getAttribute("carrito");
-        Map<String, Object> response = new HashMap<>();
         if (carrito == null || carrito.isEmpty()) {
-            response.put("status", "error");
-            response.put("mensaje", "¡No hay productos en el carrito!");
-            return response;
+            Map<String, Object> error = new HashMap<>();
+            error.put("mensaje", "¡No hay productos en el carrito!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
         }
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-         if (usuario == null) {
-            response.put("status", "error");
-            response.put("mensaje", "¡Debes iniciar sesión para procesar la compra!");
-            return response;
+        if (usuario == null) {
+            Map<String, Object> error = new HashMap<>();
+            error.put("mensaje", "¡Debes iniciar sesión para procesar la compra!");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
         }
 
         Pedido pedido = new Pedido();
@@ -110,8 +128,8 @@ public class HomeController {
         pedidoService.actualizar(pedido);
         
         session.removeAttribute("carrito");
-        response.put("status", "ok");
-        response.put("mensaje", "¡Compra realizada con éxito!");
-        return response;
+        Map<String, Object> mensaje = new HashMap<>();
+        mensaje.put("mensaje", "¡Compra realizada con éxito!");
+        return ResponseEntity.ok(mensaje);
     }
 }
