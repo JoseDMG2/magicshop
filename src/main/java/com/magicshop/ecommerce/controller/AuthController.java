@@ -3,9 +3,7 @@ package com.magicshop.ecommerce.controller;
 
 import com.magicshop.ecommerce.model.Usuario;
 import com.magicshop.ecommerce.security.JwtUtil;
-import com.magicshop.ecommerce.service.UsuarioService;
 import com.magicshop.ecommerce.service.impl.UsuarioServicesImpl;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
