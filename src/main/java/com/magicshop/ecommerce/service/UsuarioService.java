@@ -10,5 +10,7 @@ public interface UsuarioService {
     Usuario actualizar(Usuario usuario);
     void eliminar(Integer id);
     Usuario ListarPorId(Integer id);
+    Usuario buscarPorCorreo(String correo);
+
     
 }

@@ -37,5 +37,11 @@ public class UsuarioServicesImpl implements UsuarioService {
     public Usuario ListarPorId(Integer id) {
         return usurep.findById(id).orElse(null);
     }
+
+    @Override
+    public Usuario buscarPorCorreo(String correo) {
+        return usurep.findByCorreo(correo).orElse(null);
+    }
+
     
 }

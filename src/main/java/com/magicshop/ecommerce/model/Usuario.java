@@ -50,15 +50,7 @@ public class Usuario {
     private String rol;
     
     //Constructores
-    public Usuario(String nombre, String apellido, String correo, String clave, String telefono, String direccion, String rol) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.correo = correo;
-        this.clave = clave;
-        this.telefono = telefono;
-        this.direccion = direccion;
-        this.rol = rol;
-    }
+
 
     public Usuario() {
     }

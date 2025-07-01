@@ -91,6 +91,7 @@ function abrirModalEditarProducto(button) {
     form.querySelector('input[name="nombre"]').value = button.getAttribute('data-nombre');
     form.querySelector('input[name="precio"]').value = button.getAttribute('data-precio');
     form.querySelector('input[name="stock"]').value = button.getAttribute('data-stock');
+    form.querySelector('input[name="imagen"]').value = button.getAttribute('data-imagen');
 
     // Cambiar título del modal (opcional)
     modal.querySelector('.modal-title').textContent = 'Editar Producto';
