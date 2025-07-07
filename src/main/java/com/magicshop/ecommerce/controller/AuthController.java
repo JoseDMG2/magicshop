@@ -11,6 +11,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,8 @@ public class AuthController {
 
     @Autowired
     private UsuarioService usuarioService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
     public ResponseEntity<?> registrarUsuario(@Valid @RequestBody Usuario usuario, BindingResult bindingResult, HttpSession session) {
@@ -39,6 +42,7 @@ public class AuthController {
             error.put("error", "El correo ya está registrado.");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
         }
+        usuario.setClave(passwordEncoder.encode(usuario.getClave()));
         usuario.setRol("CLIENTE");
         usuarioService.registrar(usuario);
         session.setAttribute("usuario", usuario);
@@ -53,15 +57,14 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest, HttpSession session) {
         Usuario usuario = usuarioService.listar().stream()
-                .filter(u -> u.getCorreo().equals(loginRequest.correo) && u.getClave().equals(loginRequest.clave))
+                .filter(u -> u.getCorreo().equals(loginRequest.correo))
                 .findFirst().orElse(null);
 
-        if (usuario != null) {
-            session.setAttribute("usuario", usuario); // Guarda al usuario en la sesión
-            return ResponseEntity.ok(usuario); // Retorna el usuario como JSON
+        if (usuario != null && passwordEncoder.matches(loginRequest.clave, usuario.getClave())) {
+            session.setAttribute("usuario", usuario); 
+            return ResponseEntity.ok(usuario); 
         }
 
-        // Error de autenticación
         Map<String, String> error = new HashMap<>();
         error.put("error", "Correo o contraseña incorrectos.");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
