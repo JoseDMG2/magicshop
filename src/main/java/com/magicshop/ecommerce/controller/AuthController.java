@@ -4,13 +4,15 @@ package com.magicshop.ecommerce.controller;
 import com.magicshop.ecommerce.model.Usuario;
 import com.magicshop.ecommerce.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
-//import jakarta.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +25,15 @@ public class AuthController {
     private UsuarioService usuarioService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registrarUsuario(@RequestBody Usuario usuario, HttpSession session) {
+    public ResponseEntity<?> registrarUsuario(@Valid @RequestBody Usuario usuario, BindingResult bindingResult, HttpSession session) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest().body(errors);
+        }
+        
         if (usuarioService.listar().stream().anyMatch(u -> u.getCorreo().equals(usuario.getCorreo()))) {
             Map<String, String> error = new HashMap<>();
             error.put("error", "El correo ya está registrado.");
@@ -31,7 +41,7 @@ public class AuthController {
         }
         usuario.setRol("CLIENTE");
         usuarioService.registrar(usuario);
-        session.setAttribute("usuario", usuario); // Inicia sesión automáticamente
+        session.setAttribute("usuario", usuario);
         return ResponseEntity.ok(usuario);
     }
 
@@ -72,5 +82,6 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No hay usuario autenticado.");
         }
     }
+
 
 }
