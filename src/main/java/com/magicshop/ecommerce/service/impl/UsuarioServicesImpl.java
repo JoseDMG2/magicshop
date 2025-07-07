@@ -6,13 +6,14 @@ import com.magicshop.ecommerce.service.UsuarioService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 @Service
 public class UsuarioServicesImpl implements UsuarioService {
 
     @Autowired
     UsuarioRepository usurep;
-    
+
     @Override
     public List<Usuario> listar() {
         return usurep.findAll();
@@ -37,5 +38,9 @@ public class UsuarioServicesImpl implements UsuarioService {
     public Usuario ListarPorId(Integer id) {
         return usurep.findById(id).orElse(null);
     }
-    
+
+    public Optional<Usuario> obtenerPorCorreo(String correo) {
+        return usurep.findByCorreo(correo);
+    }
+
 }
