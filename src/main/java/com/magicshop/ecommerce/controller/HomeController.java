@@ -67,13 +67,7 @@ public class HomeController {
 
     @PostMapping("/carrito")
     public ResponseEntity<?> agregarAlCarrito(@RequestBody CarritoRequest carritoRequest, HttpSession session) {
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
         List<DetallePedido> carrito = (List<DetallePedido>) session.getAttribute("carrito");
-        if(usuario == null) {
-            Map<String, Object> error = new HashMap<>();
-            error.put("mensaje", "¡Debes iniciar sesión para procesar la compra!");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
-        }
         if (carrito == null) carrito = new ArrayList<>();
         boolean existe = carrito.stream().anyMatch(d -> d.getProducto().getId() == carritoRequest.productoId);
         if (!existe) {
