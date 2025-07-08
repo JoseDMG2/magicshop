@@ -18,6 +18,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -142,12 +144,14 @@ public class HomeController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
         }
 
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if (usuario == null) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated() || auth.getPrincipal().equals("anonymousUser")) {
             Map<String, Object> error = new HashMap<>();
             error.put("mensaje", "¡Debes iniciar sesión para procesar la compra!");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
         }
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
 
         Pedido pedido = new Pedido();
         pedido.setUsuario(usuario);
