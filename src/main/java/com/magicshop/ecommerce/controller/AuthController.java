@@ -11,6 +11,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -93,12 +94,25 @@ public class AuthController {
     }
 
     @GetMapping("/api/usuario/actual")
-    public ResponseEntity<?> usuarioActual(HttpSession session) {
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if (usuario != null) {
-            return ResponseEntity.ok(usuario);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No hay usuario autenticado.");
+    public ResponseEntity<?> getUsuarioActual() {
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth == null || !auth.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+
+        String correo = auth.getName(); // `sub` del JWT
+        String rol = auth.getAuthorities().stream()
+                .findFirst().map(Object::toString).orElse("USER")
+                .replace("ROLE_", "");
+
+        Map<String, Object> data = Map.of(
+                "correo", correo,
+                "rol", rol,
+                "nombre", "Nombre desde token" // opcional si lo incluyes
+        );
+
+        return ResponseEntity.ok(data);
     }
+
 }
