@@ -18,7 +18,7 @@ public class ShopController {
     @Autowired
     private CategoriaService categoriaService;
     
-    @GetMapping("/shop")
+    @GetMapping("/api/shop")
     public String mostrarShop(@RequestParam(required = false) Integer categoriaId, Model model) {
         List<Categoria> categorias = categoriaService.listar();
         List<Producto> productos = (categoriaId != null)

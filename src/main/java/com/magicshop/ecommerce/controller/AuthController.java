@@ -1,7 +1,7 @@
-
 package com.magicshop.ecommerce.controller;
 
 import com.magicshop.ecommerce.model.Usuario;
+import com.magicshop.ecommerce.security.JwtUtil;
 import com.magicshop.ecommerce.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -23,12 +23,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class AuthController {
 
     @Autowired
+    private JwtUtil jwtUtil;
+
+    @Autowired
     private UsuarioService usuarioService;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @PostMapping("/register")
-    public ResponseEntity<?> registrarUsuario(@Valid @RequestBody Usuario usuario, BindingResult bindingResult, HttpSession session) {
+    @PostMapping("/api/register")
+    public ResponseEntity<?> registrarUsuario(@Valid @RequestBody Usuario usuario, BindingResult bindingResult,
+            HttpSession session) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
             for (FieldError error : bindingResult.getFieldErrors()) {
@@ -36,16 +41,18 @@ public class AuthController {
             }
             return ResponseEntity.badRequest().body(errors);
         }
-        
+
         if (usuarioService.listar().stream().anyMatch(u -> u.getCorreo().equals(usuario.getCorreo()))) {
             Map<String, String> error = new HashMap<>();
             error.put("error", "El correo ya está registrado.");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
         }
+
         usuario.setClave(passwordEncoder.encode(usuario.getClave()));
         usuario.setRol("CLIENTE");
         usuarioService.registrar(usuario);
         session.setAttribute("usuario", usuario);
+
         return ResponseEntity.ok(usuario);
     }
 
@@ -54,15 +61,24 @@ public class AuthController {
         public String clave;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/api/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest, HttpSession session) {
         Usuario usuario = usuarioService.listar().stream()
                 .filter(u -> u.getCorreo().equals(loginRequest.correo))
                 .findFirst().orElse(null);
 
         if (usuario != null && passwordEncoder.matches(loginRequest.clave, usuario.getClave())) {
-            session.setAttribute("usuario", usuario); 
-            return ResponseEntity.ok(usuario); 
+            String token = jwtUtil.generateToken(usuario.getCorreo(), usuario.getRol());
+
+            session.setAttribute("usuario", usuario);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("token", token);
+            response.put("correo", usuario.getCorreo());
+            response.put("rol", usuario.getRol());
+            response.put("nombre", usuario.getNombre());
+
+            return ResponseEntity.ok(response);
         }
 
         Map<String, String> error = new HashMap<>();
@@ -70,13 +86,13 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 
-    @GetMapping("/logout")
+    @GetMapping("/api/logout")
     public ResponseEntity<?> logout(HttpSession session) {
         session.invalidate();
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/usuario/actual")
+    @GetMapping("/api/usuario/actual")
     public ResponseEntity<?> usuarioActual(HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if (usuario != null) {
@@ -85,6 +101,4 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No hay usuario autenticado.");
         }
     }
-
-
 }

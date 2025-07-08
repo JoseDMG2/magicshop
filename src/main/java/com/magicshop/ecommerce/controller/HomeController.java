@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @RestController
-@RequestMapping("/auth/")
+@RequestMapping("/api/")
 public class HomeController {
 
     @Autowired
